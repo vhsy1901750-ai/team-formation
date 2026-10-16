@@ -1,0 +1,13 @@
+# 2026-10-16 21:49 KST
+# 키가 들어 있는 파일
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# 파이썬
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
