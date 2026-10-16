@@ -111,6 +111,11 @@ def call_openrouter(model: str, prompt: str, api_key: str) -> str:
     return content
 
 
+def describe_attempt(a: AttemptResult) -> str:
+    """화면에 보여 줄 시도 기록 한 줄. 모델 이름 바로 뒤에 쌍점을 두지 않는다(':free:'가 이모지로 바뀜)."""
+    return f"{a.attempt}차 모델 {a.model} → {a.outcome} ({a.elapsed_s:.0f}초) {a.detail}".rstrip()
+
+
 def _one_attempt(
     attempt: int,
     model: str,

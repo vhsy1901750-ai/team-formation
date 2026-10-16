@@ -182,7 +182,7 @@ def run_assignment(pool) -> list[str]:
             db.log_attempt(pool, a)
         except Exception:
             pass
-    notes = [f"{a.attempt}차 모델 {a.model}: {a.outcome} ({a.elapsed_s:.0f}초) {a.detail}".rstrip() for a in attempts]
+    notes = [ai.describe_attempt(a) for a in attempts]
     if plan is not None:
         source = f"{attempts[-1].attempt}차 모델 {attempts[-1].model}"
     else:

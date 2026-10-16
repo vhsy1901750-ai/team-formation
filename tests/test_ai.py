@@ -4,7 +4,8 @@ import time
 import pytest
 from helpers import s
 
-from tf.ai import AIError, build_prompt, parse_plan, run_ai_assignment
+from tf.ai import AIError, build_prompt, describe_attempt, parse_plan, run_ai_assignment
+from tf.models import AttemptResult
 
 TEAMS = {1: [s(1, "기획자"), s(2, "웹 프로그래머")], 2: []}
 UN = [s(3, "기획자"), s(4, "웹 프로그래머")]
@@ -74,3 +75,10 @@ def test_on_wait_reports_attempt_and_model():
 
     run_ai_assignment(TEAMS, UN, api_key="x", call=fake, models=["m1"], on_wait=lambda *a: calls.append(a))
     assert calls and calls[0][:2] == (1, "m1")
+
+
+def test_describe_attempt_keeps_free_suffix_out_of_emoji_code():
+    # Streamlit은 ":free:"를 이모지 코드로 바꾸므로, 모델 이름 바로 뒤에 쌍점이 오면 안 된다
+    line = describe_attempt(AttemptResult(1, "nvidia/nemotron-3-super-120b-a12b:free", "성공", "8명 배정", 35.2))
+    assert ":free:" not in line
+    assert line == "1차 모델 nvidia/nemotron-3-super-120b-a12b:free → 성공 (35초) 8명 배정"
