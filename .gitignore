@@ -11,3 +11,6 @@ __pycache__/
 .venv/
 venv/
 .pytest_cache/
+
+# 앱 안 브라우저 실행 설정
+.claude/

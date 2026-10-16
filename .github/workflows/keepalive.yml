@@ -1,0 +1,23 @@
+# 2026-10-16 22:32 KST
+# Supabase 무료 프로젝트는 1주일 동안 DB 요청이 적으면 일시정지된다.
+# 매일 09:00(KST)에 DB에 질의해 채점 기간(11/3~11/4)에 DB가 켜져 있게 한다.
+# 저장소 Settings > Secrets and variables > Actions에 DATABASE_URL을 넣어야 한다.
+name: DB keepalive
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install "psycopg[binary]==3.3.6" "psycopg-pool==3.3.3" "bcrypt==5.0.0" "python-dotenv==1.2.4"
+      - run: python scripts/keepalive.py
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
