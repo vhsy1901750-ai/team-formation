@@ -30,10 +30,23 @@ https://team-formation-2026.streamlit.app
 
 ## 4. 쓴 모델 3개
 
-<!-- TODO: 낮에 다시 시험해서 실제로 응답하는 모델로 확정한다. 10/16 밤 시험에서는 아래 후보가 모두 실패했다(5항). -->
 - 1차: `nvidia/nemotron-3-super-120b-a12b:free`
-- 2차: `google/gemma-4-31b-it:free`
-- 3차: `poolside/laguna-s-2.1:free`
+- 2차: `dots-studio/dots-3-note-preview:free`
+- 3차: `cohere/north-mini-code:free`
+
+**고른 방법:** 어려움 시나리오의 마감 직후 상태(팀이 없는 학생 8명)를 무료 모델 후보에 보내, 120초 안에 검사를 통과하는 배정안을 내는지 10/16 밤과 10/17 오전에 시험했다. 한 회사의 모델이 한꺼번에 막히지 않도록 서로 다른 회사의 모델로 골랐다.
+
+| 모델 | 성공 | 실패 |
+|---|---|---|
+| `nvidia/nemotron-3-super-120b-a12b:free` | 3번 (35~50초, 배포한 앱) | 시간 초과 5번 |
+| `dots-studio/dots-3-note-preview:free` | 1번 (91초) | 빈 응답 1번 |
+| `cohere/north-mini-code:free` | 0번 | 시간 초과 1번, 검사 실패 1번 (팀3에 5명을 넣음) |
+| `google/gemma-4-31b-it:free` | 0번 | HTTP 429 5번 |
+| `poolside/laguna-s-2.1:free` | 0번 | 시간 초과 2번, HTTP 429 2번 |
+
+배포한 앱에서 부른 기록은 `tf_ai_logs` 테이블에 있고, 나머지는 같은 프롬프트를 내 컴퓨터에서 보낸 시험이다.
+
+그 밖에 `google/gemma-4-26b-a4b-it:free`, `poolside/laguna-xs-2.1:free`(HTTP 429), `nvidia/nemotron-3-ultra-550b-a55b:free`(과부하), `liquid/lfm-2.5-2.6b:free`(빈 응답)도 실패했고, `thinkingmachines/inkling:free`는 에이전트 앱 전용(HTTP 403)이라 뺐다. 무료 모델은 어느 것도 늘 성공하지 않으므로, 3차까지 실패하면 앱이 직접 배정한다.
 
 추론 모델의 빈 응답을 줄이려고 요청에 `reasoning: {"effort": "low"}`와 `max_tokens: 8000`을 준다.
 

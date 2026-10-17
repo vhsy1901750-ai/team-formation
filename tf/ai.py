@@ -17,8 +17,8 @@ URL = "https://openrouter.ai/api/v1/chat/completions"
 LIMIT_S = 120.0
 MODELS = [
     "nvidia/nemotron-3-super-120b-a12b:free",
-    "google/gemma-4-31b-it:free",
-    "poolside/laguna-s-2.1:free",
+    "dots-studio/dots-3-note-preview:free",
+    "cohere/north-mini-code:free",
 ]
 
 
